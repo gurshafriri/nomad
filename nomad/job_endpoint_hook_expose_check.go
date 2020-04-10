@@ -28,9 +28,9 @@ func (jobExposeCheckHook) Mutate(job *structs.Job) (_ *structs.Job, warnings []e
 						serviceExposeConfig := serviceExposeConfig(s)
 						// insert only if not already present - required for job
 						// updates which would otherwise create duplicates
-						if !containsExposePath(serviceExposeConfig.Paths, *exposePath) {
-							serviceExposeConfig.Paths = append(
-								serviceExposeConfig.Paths, *exposePath,
+						if !containsExposePath(serviceExposeConfig.Path, *exposePath) {
+							serviceExposeConfig.Path = append(
+								serviceExposeConfig.Path, *exposePath,
 							)
 						}
 					}
@@ -77,10 +77,10 @@ func serviceExposeConfig(s *structs.Service) *structs.ConsulExposeConfig {
 	if s.Connect.SidecarService.Proxy == nil {
 		s.Connect.SidecarService.Proxy = new(structs.ConsulProxy)
 	}
-	if s.Connect.SidecarService.Proxy.Expose == nil {
-		s.Connect.SidecarService.Proxy.Expose = new(structs.ConsulExposeConfig)
+	if s.Connect.SidecarService.Proxy.ExposeConfig == nil {
+		s.Connect.SidecarService.Proxy.ExposeConfig = new(structs.ConsulExposeConfig)
 	}
-	return s.Connect.SidecarService.Proxy.Expose
+	return s.Connect.SidecarService.Proxy.ExposeConfig
 }
 
 // containsExposePath returns true if path is contained in paths.

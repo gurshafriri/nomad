@@ -1212,7 +1212,7 @@ func apiConnectSidecarServiceProxyToStructs(in *api.ConsulProxy) *structs.Consul
 		LocalServiceAddress: in.LocalServiceAddress,
 		LocalServicePort:    in.LocalServicePort,
 		Upstreams:           apiUpstreamsToStructs(in.Upstreams),
-		Expose:              apiConsulExposeConfigToStructs(in.ExposeConfig),
+		ExposeConfig:        apiConsulExposeConfigToStructs(in.ExposeConfig),
 		Config:              in.Config,
 	}
 }
@@ -1236,7 +1236,7 @@ func apiConsulExposeConfigToStructs(in *api.ConsulExposeConfig) *structs.ConsulE
 		return nil
 	}
 	return &structs.ConsulExposeConfig{
-		Paths: apiConsulExposePathsToStructs(in.Path),
+		Path: apiConsulExposePathsToStructs(in.Path),
 	}
 }
 

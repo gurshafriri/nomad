@@ -254,15 +254,15 @@ func TestJobEndpoint_Register_ConnectExposeCheck(t *testing.T) {
 	r.Equal(resp.JobModifyIndex, out.CreateIndex)
 
 	// Check that the new expose paths got created
-	r.Len(out.TaskGroups[0].Services[0].Connect.SidecarService.Proxy.Expose.Paths, 2)
-	httpPath := out.TaskGroups[0].Services[0].Connect.SidecarService.Proxy.Expose.Paths[0]
+	r.Len(out.TaskGroups[0].Services[0].Connect.SidecarService.Proxy.ExposeConfig.Path, 2)
+	httpPath := out.TaskGroups[0].Services[0].Connect.SidecarService.Proxy.ExposeConfig.Path[0]
 	r.Equal(structs.ConsulExposePath{
 		Path:          "/health",
 		Protocol:      "http",
 		LocalPathPort: 8080,
 		ListenerPort:  "hcPort",
 	}, httpPath)
-	grpcPath := out.TaskGroups[0].Services[0].Connect.SidecarService.Proxy.Expose.Paths[1]
+	grpcPath := out.TaskGroups[0].Services[0].Connect.SidecarService.Proxy.ExposeConfig.Path[1]
 	r.Equal(structs.ConsulExposePath{
 		Path:          "/v2/health",
 		Protocol:      "grpc",
@@ -285,7 +285,7 @@ func TestJobEndpoint_Register_ConnectExposeCheck(t *testing.T) {
 	r.Equal(resp.JobModifyIndex, out.CreateIndex)
 
 	// make sure we are not re-adding what has already been added
-	r.Len(out.TaskGroups[0].Services[0].Connect.SidecarService.Proxy.Expose.Paths, 2)
+	r.Len(out.TaskGroups[0].Services[0].Connect.SidecarService.Proxy.ExposeConfig.Path, 2)
 }
 
 func TestJobEndpoint_Register_ConnectWithSidecarTask(t *testing.T) {

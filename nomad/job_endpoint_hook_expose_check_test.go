@@ -416,8 +416,8 @@ func TestJobExposeCheckHook_serviceExposeConfig(t *testing.T) {
 			Connect: &structs.ConsulConnect{
 				SidecarService: &structs.ConsulSidecarService{
 					Proxy: &structs.ConsulProxy{
-						Expose: &structs.ConsulExposeConfig{
-							Paths: []structs.ConsulExposePath{{
+						ExposeConfig: &structs.ConsulExposeConfig{
+							Path: []structs.ConsulExposePath{{
 								Path: "/health",
 							}},
 						},
@@ -428,7 +428,7 @@ func TestJobExposeCheckHook_serviceExposeConfig(t *testing.T) {
 		require.NotNil(t, exposeConfig)
 		require.Equal(t, []structs.ConsulExposePath{{
 			Path: "/health",
-		}}, exposeConfig.Paths)
+		}}, exposeConfig.Path)
 	})
 
 	t.Run("append to paths is safe", func(t *testing.T) {
@@ -440,8 +440,8 @@ func TestJobExposeCheckHook_serviceExposeConfig(t *testing.T) {
 			Connect: &structs.ConsulConnect{
 				SidecarService: &structs.ConsulSidecarService{
 					Proxy: &structs.ConsulProxy{
-						Expose: &structs.ConsulExposeConfig{
-							Paths: []structs.ConsulExposePath{{
+						ExposeConfig: &structs.ConsulExposeConfig{
+							Path: []structs.ConsulExposePath{{
 								Path: "/one",
 							}},
 						},
@@ -451,7 +451,7 @@ func TestJobExposeCheckHook_serviceExposeConfig(t *testing.T) {
 		}
 
 		exposeConfig := serviceExposeConfig(s)
-		exposeConfig.Paths = append(exposeConfig.Paths,
+		exposeConfig.Path = append(exposeConfig.Path,
 			structs.ConsulExposePath{Path: "/two"},
 			structs.ConsulExposePath{Path: "/three"},
 			structs.ConsulExposePath{Path: "/four"},
@@ -465,7 +465,7 @@ func TestJobExposeCheckHook_serviceExposeConfig(t *testing.T) {
 		// works, because exposeConfig.Paths gets re-assigned into exposeConfig
 		// which is a pointer, meaning the field is modified also from the
 		// service struct's perspective
-		require.Equal(t, 9, len(s.Connect.SidecarService.Proxy.Expose.Paths))
+		require.Equal(t, 9, len(s.Connect.SidecarService.Proxy.ExposeConfig.Path))
 	})
 }
 
@@ -547,8 +547,8 @@ func TestJobExposeCheckHook_Mutate(t *testing.T) {
 					Connect: &structs.ConsulConnect{
 						SidecarService: &structs.ConsulSidecarService{
 							Proxy: &structs.ConsulProxy{
-								Expose: &structs.ConsulExposeConfig{
-									Paths: []structs.ConsulExposePath{{
+								ExposeConfig: &structs.ConsulExposeConfig{
+									Path: []structs.ConsulExposePath{{
 										Path:          "/pre-existing",
 										Protocol:      "http",
 										LocalPathPort: 9000,
@@ -587,12 +587,12 @@ func TestJobExposeCheckHook_Mutate(t *testing.T) {
 			Path:          "/v2/health",
 			LocalPathPort: 8000,
 			ListenerPort:  "health",
-		}}, result.TaskGroups[1].Services[0].Connect.SidecarService.Proxy.Expose.Paths)
+		}}, result.TaskGroups[1].Services[0].Connect.SidecarService.Proxy.ExposeConfig.Path)
 		require.Equal(t, []structs.ConsulExposePath{{
 			Path:          "/ok",
 			LocalPathPort: 3000,
 			Protocol:      "http2",
 			ListenerPort:  "health",
-		}}, result.TaskGroups[1].Services[1].Connect.SidecarService.Proxy.Expose.Paths)
+		}}, result.TaskGroups[1].Services[1].Connect.SidecarService.Proxy.ExposeConfig.Path)
 	})
 }

@@ -889,7 +889,7 @@ type ConsulProxy struct {
 
 	// Expose configures the consul proxy.expose stanza to "open up" endpoints
 	// used by task-group level service checks using HTTP or gRPC protocols.
-	Expose *ConsulExposeConfig
+	ExposeConfig *ConsulExposeConfig
 
 	// Config is a proxy configuration. It is opaque to Nomad and passed
 	// directly to Consul.
@@ -905,7 +905,7 @@ func (p *ConsulProxy) Copy() *ConsulProxy {
 	newP := &ConsulProxy{
 		LocalServiceAddress: p.LocalServiceAddress,
 		LocalServicePort:    p.LocalServicePort,
-		Expose:              p.Expose,
+		ExposeConfig:        p.ExposeConfig.Copy(),
 	}
 
 	if n := len(p.Upstreams); n > 0 {
@@ -941,7 +941,7 @@ func (p *ConsulProxy) Equals(o *ConsulProxy) bool {
 		return false
 	}
 
-	if !p.Expose.Equals(o.Expose) {
+	if !p.ExposeConfig.Equals(o.ExposeConfig) {
 		return false
 	}
 
@@ -1009,7 +1009,7 @@ func (u *ConsulUpstream) Equals(o *ConsulUpstream) bool {
 
 // ExposeConfig represents a Consul Connect expose jobspec stanza.
 type ConsulExposeConfig struct {
-	Paths []ConsulExposePath
+	Path []ConsulExposePath
 }
 
 type ConsulExposePath struct {
@@ -1041,12 +1041,12 @@ func (e *ConsulExposeConfig) Copy() *ConsulExposeConfig {
 	if e == nil {
 		return nil
 	}
-	paths := make([]ConsulExposePath, len(e.Paths))
-	for i := 0; i < len(e.Paths); i++ {
-		paths[i] = e.Paths[i]
+	paths := make([]ConsulExposePath, len(e.Path))
+	for i := 0; i < len(e.Path); i++ {
+		paths[i] = e.Path[i]
 	}
 	return &ConsulExposeConfig{
-		Paths: paths,
+		Path: paths,
 	}
 }
 
@@ -1055,5 +1055,5 @@ func (e *ConsulExposeConfig) Equals(o *ConsulExposeConfig) bool {
 	if e == nil || o == nil {
 		return e == o
 	}
-	return exposePathsEqual(e.Paths, o.Paths)
+	return exposePathsEqual(e.Path, o.Path)
 }

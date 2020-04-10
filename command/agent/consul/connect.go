@@ -61,7 +61,7 @@ func connectProxy(proxy *structs.ConsulProxy, cPort int, networks structs.Networ
 		proxy = new(structs.ConsulProxy)
 	}
 
-	expose, err := connectProxyExpose(proxy.Expose, networks)
+	expose, err := connectProxyExpose(proxy.ExposeConfig, networks)
 	if err != nil {
 		return nil, err
 	}
@@ -80,7 +80,7 @@ func connectProxyExpose(expose *structs.ConsulExposeConfig, networks structs.Net
 		return api.ExposeConfig{}, nil
 	}
 
-	paths, err := connectProxyExposePaths(expose.Paths, networks)
+	paths, err := connectProxyExposePaths(expose.Path, networks)
 	if err != nil {
 		return api.ExposeConfig{}, err
 	}

@@ -81,8 +81,8 @@ func TestConnect_connectSidecarRegistration(t *testing.T) {
 	t.Run("bad proxy", func(t *testing.T) {
 		_, err := connectSidecarRegistration("redis", &structs.ConsulSidecarService{
 			Proxy: &structs.ConsulProxy{
-				Expose: &structs.ConsulExposeConfig{
-					Paths: []structs.ConsulExposePath{{
+				ExposeConfig: &structs.ConsulExposeConfig{
+					Path: []structs.ConsulExposePath{{
 						ListenerPort: "badPort",
 					}},
 				},
@@ -136,8 +136,8 @@ func TestConnect_connectProxy(t *testing.T) {
 			LocalServiceAddress: "0.0.0.0",
 			LocalServicePort:    2000,
 			Upstreams:           nil,
-			Expose: &structs.ConsulExposeConfig{
-				Paths: []structs.ConsulExposePath{{
+			ExposeConfig: &structs.ConsulExposeConfig{
+				Path: []structs.ConsulExposePath{{
 					ListenerPort: "badPort",
 				}},
 			},
@@ -151,8 +151,8 @@ func TestConnect_connectProxy(t *testing.T) {
 			LocalServiceAddress: "0.0.0.0",
 			LocalServicePort:    2000,
 			Upstreams:           nil,
-			Expose: &structs.ConsulExposeConfig{
-				Paths: []structs.ConsulExposePath{{
+			ExposeConfig: &structs.ConsulExposeConfig{
+				Path: []structs.ConsulExposePath{{
 					Path:          "/health",
 					Protocol:      "http",
 					LocalPathPort: 8000,
@@ -193,7 +193,7 @@ func TestConnect_connectProxyExpose(t *testing.T) {
 
 	t.Run("bad port", func(t *testing.T) {
 		_, err := connectProxyExpose(&structs.ConsulExposeConfig{
-			Paths: []structs.ConsulExposePath{{
+			Path: []structs.ConsulExposePath{{
 				ListenerPort: "badPort",
 			}},
 		}, testConnectNetwork)
@@ -202,7 +202,7 @@ func TestConnect_connectProxyExpose(t *testing.T) {
 
 	t.Run("normal", func(t *testing.T) {
 		expose, err := connectProxyExpose(&structs.ConsulExposeConfig{
-			Paths: []structs.ConsulExposePath{{
+			Path: []structs.ConsulExposePath{{
 				Path:          "/health",
 				Protocol:      "http",
 				LocalPathPort: 8000,
