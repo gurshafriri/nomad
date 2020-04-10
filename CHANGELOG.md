@@ -3,6 +3,10 @@
 BUG FIXES:
 
  * vault: Upgrade http2 library to fix Vault API calls that fail with `http2: no cached connection was available` [[GH-7673](https://github.com/hashicorp/nomad/issues/7673)]
+ * connect: Fixed a bug where some configured fields for connect proxy would be ignored [[GH-7690](https://github.com/hashicorp/nomad/pull/7690)]
+ * connect: Fixed a bug where some connect proxy fields would be dropped from 'job inspect' output [[GH-7397](https://github.com/hashicorp/nomad/issues/7397)]
+ * connect: Fixed a bug where a configured connect sidecar task name would be ignored [[GH-7684](https://github.com/hashicorp/nomad/pull/7684)]
+ * connect: Fixed a bug where a missing connect sidecar_service stanza would trigger benign panic [[GH-7683](https://github.com/hashicorp/nomad/pull/7683)]
 
 ## 0.11.0 (April 8, 2020)
 
