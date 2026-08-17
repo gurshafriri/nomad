@@ -6,7 +6,7 @@
   "dependencies": {
     "@bugsnag/js": "^6.5.2",
     "@bugsnag/plugin-react": "^6.5.0",
-    "@hashicorp/nextjs-scripts": "^6.2.0-9",
+    "@hashicorp/nextjs-scripts": "^6.2.0",
     "@hashicorp/react-alert": "^2.0.0",
     "@hashicorp/react-alert-banner": "^3.0.11",
     "@hashicorp/react-button": "^2.1.6",
@@ -41,7 +41,7 @@
     "imagemin-svgo": "^7.1.0",
     "isomorphic-unfetch": "^3.0.0",
     "marked": "^0.7.0",
-    "next": "9.3.2",
+    "next": "12.0.8",
     "nprogress": "^0.2.0",
     "nuka-carousel": "^4.6.6",
     "react": "^16.13.1",
